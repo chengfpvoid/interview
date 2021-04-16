@@ -51,8 +51,15 @@ public class HashCode {
         return rateInfoList;
     }
 
+    /**
+     *  把hash值 分桶存放，做统计
+     *  2^32数据范围，分成64个桶，范围[0,67108864],[67108864,..] ...类推
+     * @param hashCodeList
+     * @return
+     */
     public static Map<Integer, Integer> hashArea(List<Integer> hashCodeList) {
         Map<Integer, Integer> statistics = new LinkedHashMap<>();
+        // 区间下标
         int start = 0;
         for (long i = 0x80000000; i <= 0x7fffffff; i += 67108864) {
             long min = i;

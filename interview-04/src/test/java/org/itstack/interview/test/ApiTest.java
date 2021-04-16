@@ -15,7 +15,7 @@ public class ApiTest {
     @Before
     public void before() {
         // 读取文件，103976个英语单词库.txt
-        words = FileUtil.readWordList("E:/itstack/git/github.com/interview/doc/103976个英语单词库.txt");
+        words = FileUtil.readWordList("E:\\java-base\\interview\\docs\\103976个英语单词库.txt");
     }
 
     @Test
@@ -25,7 +25,7 @@ public class ApiTest {
             // 使用扰动函数
             int idx = Disturb.disturbHashIdx(word, 128);
             // 不使用扰动函数
-            // int idx = Disturb.hashIdx(word, 128);
+            //int idx = Disturb.hashIdx(word, 128);
             if (map.containsKey(idx)) {
                 Integer integer = map.get(idx);
                 map.put(idx, ++integer);
@@ -83,10 +83,14 @@ public class ApiTest {
         list.add("yhjk");
         list.add("plop");
         list.add("dd0p");
-
+        // 原哈希值与扩容新增 出来的长度 16，
+        // 进行&运算，如果值等于 0，则下标位置不变。如果不为 0，那么新的位置则是原来位置上加 16。
+        // hash & oldCap != 0 被迁移到 oldIndex + oldCap位置
         for (String key : list) {
             int hash = key.hashCode() ^ (key.hashCode() >>> 16);
-            System.out.println("字符串：" + key + " \tIdx(16)：" + ((16 - 1) & hash) + " \tBit值：" + Integer.toBinaryString(hash) + " - " + Integer.toBinaryString(hash & 16) + " \t\tIdx(32)：" + ((32 - 1) & hash));
+            System.out.println("字符串：" + key + " \tIdx(16)：" + ((16 - 1) & hash) + " hash值" + hash + " \thash Bit值："
+                    + Integer.toBinaryString(hash) + " - " + Integer.toBinaryString(hash & 16)
+                    + " \t\tIdx(32)：" + ((32 - 1) & hash));
             System.out.println(Integer.toBinaryString(key.hashCode()) +" "+ Integer.toBinaryString(hash) + " " + Integer.toBinaryString((32 - 1) & hash));
         }
     }
@@ -113,20 +117,20 @@ public class ApiTest {
 
         // 定义要存放的数组
         String[] tab = new String[8];
-
-        // 循环存放
-        for (String key : list) {
-            int idx = key.hashCode() & (tab.length - 1);  // 计算索引位置
-            System.out.println(String.format("key值=%s Idx=%d", key, idx));
-            if (null == tab[idx]) {
+        for(String key : list) {
+            int idx = key.hashCode() & (tab.length - 1);
+            System.out.println(String.format("key值 = %s idx = %d",key,idx));
+            if (tab[idx] == null) {
                 tab[idx] = key;
                 continue;
             }
             tab[idx] = tab[idx] + "->" + key;
+
         }
 
-        // 输出测试结果
-        System.out.println("测试结果：" + JSON.toJSONString(tab));
+        System.out.println(JSON.toJSONString(tab));
+
+
 
     }
 
