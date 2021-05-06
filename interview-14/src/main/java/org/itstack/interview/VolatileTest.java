@@ -25,12 +25,12 @@ public class VolatileTest {
 }
 
 class Task implements Runnable {
-    volatile boolean stop = false;
+    boolean stop = false;
 
     public void run() {
         long s = System.currentTimeMillis();
         while (!stop) {
-            System.out.println("你好");
+           // System.out.println("你好");
         }
         System.out.println("线程退出" + (System.currentTimeMillis() - s));
     }
