@@ -3,9 +3,6 @@ package org.itstack.interview;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 
 public class VisibilityTest {
 
@@ -19,6 +16,7 @@ public class VisibilityTest {
             while (!sign) {
                 i++;
                 add(i);
+              //  addNoSync(i); // 去掉同步锁之后就没有可见性了 循环无法退出
             }
         });
         Thread Thread02 = new Thread(() -> {
@@ -34,6 +32,9 @@ public class VisibilityTest {
     }
 
     public static synchronized int add(int i) {
+        return i + 1;
+    }
+    public static  int addNoSync(int i) {
         return i + 1;
     }
 
