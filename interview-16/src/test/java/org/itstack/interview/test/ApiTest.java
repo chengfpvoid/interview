@@ -77,7 +77,7 @@ public class ApiTest {
 
         private Lock lock;
 
-        public TestLock(Lock lock) throws InterruptedException {
+        public  TestLock(Lock lock) throws InterruptedException {
             this.lock = lock;
         }
 
